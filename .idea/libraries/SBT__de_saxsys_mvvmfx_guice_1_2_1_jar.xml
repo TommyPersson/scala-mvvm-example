@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="SBT: de.saxsys:mvvmfx-guice:1.2.1:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/de.saxsys/mvvmfx-guice/jars/mvvmfx-guice-1.2.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.ivy2/cache/de.saxsys/mvvmfx-guice/docs/mvvmfx-guice-1.2.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/de.saxsys/mvvmfx-guice/srcs/mvvmfx-guice-1.2.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

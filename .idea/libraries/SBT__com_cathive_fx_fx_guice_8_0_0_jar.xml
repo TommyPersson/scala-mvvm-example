@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="SBT: com.cathive.fx:fx-guice:8.0.0:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.cathive.fx/fx-guice/bundles/fx-guice-8.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.cathive.fx/fx-guice/docs/fx-guice-8.0.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.cathive.fx/fx-guice/srcs/fx-guice-8.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
