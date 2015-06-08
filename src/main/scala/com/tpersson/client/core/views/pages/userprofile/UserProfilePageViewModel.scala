@@ -6,10 +6,8 @@ import com.google.inject.Inject
 import com.tpersson.client.common.services.logging.Logger
 import com.tpersson.client.common.services.navigation.NavigationService
 import com.tpersson.client.common.services.session.SessionService
-import com.tpersson.client.common.utils.AsyncCommand
-import com.tpersson.client.common.utils.ExecutionContexts.Implicits.Ui
+import com.tpersson.client.common.utils.{AsyncCommand, ExecutionContextProvider, PageViewModelBase}
 import com.tpersson.client.core.views.pages.loginpage.LoginPageView
-import de.saxsys.mvvmfx.ViewModel
 import de.saxsys.mvvmfx.utils.commands.Command
 
 import scala.async.Async.{async, await}
@@ -17,8 +15,9 @@ import scala.async.Async.{async, await}
 class UserProfilePageViewModel @Inject() (
     logger: Logger,
     sessionService: SessionService,
-    navigationService: NavigationService)
-  extends ViewModel {
+    navigationService: NavigationService,
+    executionContextProvider: ExecutionContextProvider)
+  extends PageViewModelBase(executionContextProvider) {
 
   val fullName: StringProperty = new SimpleStringProperty()
   val username: StringProperty = new SimpleStringProperty()
@@ -32,6 +31,7 @@ class UserProfilePageViewModel @Inject() (
       fullName.setValue(session.fullName)
       username.setValue(session.username)
       email.setValue(session.email)
+    case _ => Unit
   }
 
   private def signOut() = async {
