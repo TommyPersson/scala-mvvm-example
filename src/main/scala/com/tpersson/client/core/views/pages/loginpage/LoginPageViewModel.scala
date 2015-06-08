@@ -35,10 +35,12 @@ class LoginPageViewModel @Inject() (
 
     await(sessionService.signIn(username.get(), password.get())) match {
       case Left(error) => message.setValue(error)
+        password.setValue("")
       case Right(session) =>
-        message.setValue("")
         navigationService.navigateTo(classOf[UserProfilePageView])
     }
+
+    delayedClearMessage()
   }
 
   private def canRegister = {
