@@ -1,42 +1,36 @@
 package com.tpersson.client.core.views.mainwindow
 
 import javafx.beans.property._
+import javafx.beans.value.{ObservableValue, ChangeListener}
+import javafx.scene.Node
 
 import com.google.inject.Inject
-import com.tpersson.client.common.utils.ExecutionContexts.Implicits.Ui
-import com.tpersson.client.common.utils.{AsyncCommand, AwaitUtils}
 import com.tpersson.client.common.services.logging.Logger
-import com.tpersson.client.core.services.session.SessionService
+import com.tpersson.client.common.services.navigation.NavigationService
+import com.tpersson.client.core.services.viewfactory.PageViewFactory
+import com.tpersson.client.core.views.pages.loginpage.LoginPageView
 import de.saxsys.mvvmfx.ViewModel
-import de.saxsys.mvvmfx.utils.commands.Command
-
-import scala.async.Async.{async, await}
-import scala.concurrent.Future
 
 class MainWindowViewModel @Inject() (
-    val logger: Logger,
-    val sessionService: SessionService)
+    logger: Logger,
+    navigationService: NavigationService,
+    pageViewFactory: PageViewFactory)
   extends ViewModel {
 
-  private val originalMessage = "Press button to login"
+  private val _currentPageViewNode = new SimpleObjectProperty[Node]()
 
-  val message: StringProperty = new SimpleStringProperty(originalMessage)
+  val currentPageViewNode: ReadOnlyObjectProperty[Node] = _currentPageViewNode
 
-  val doThingCommand: Command = new AsyncCommand(doThing)
+  navigationService.currentPageType.addListener(new ChangeListener[Class[_]] {
+    override def changed(observable: ObservableValue[_ <: Class[_]], oldValue: Class[_], newValue: Class[_]): Unit = {
+      val viewType = newValue
 
-  private def doThing(): Future[Unit] = async {
-    message.setValue(s"Logging in...")
-
-    await(sessionService.logIn("tommy", "secret")) match {
-      case Left(error) => message.setValue(s"Login failed: $error")
-      case Right(session) => message.setValue(s"Welcome ${session.fullName}!")
+      pageViewFactory.createViewNode(viewType) match {
+        case Some(node) => _currentPageViewNode.setValue(node)
+        case None => logger.log(s"Unable to change view to <$viewType>")
+      }
     }
+  })
 
-    delayedRestoreMessage()
-  }
-
-  private def delayedRestoreMessage(): Unit = async {
-    await(AwaitUtils.delay(2000))
-    message.setValue(originalMessage)
-  }
+  navigationService.navigateTo(classOf[LoginPageView])
 }

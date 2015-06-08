@@ -4,16 +4,19 @@ import javafx.beans.property.{SimpleStringProperty, StringProperty}
 
 import com.google.inject.Inject
 import com.tpersson.client.common.services.logging.Logger
+import com.tpersson.client.common.services.navigation.NavigationService
+import com.tpersson.client.common.services.session.SessionService
 import com.tpersson.client.common.utils.ExecutionContexts.Implicits.Ui
 import com.tpersson.client.common.utils.{AsyncCommand, AwaitUtils}
-import com.tpersson.client.core.services.session.SessionService
+import com.tpersson.client.core.views.pages.userprofile.UserProfilePageView
 import de.saxsys.mvvmfx.ViewModel
 
 import scala.async.Async._
 
 class LoginPageViewModel @Inject() (
-    val logger: Logger,
-    val sessionService: SessionService)
+    logger: Logger,
+    sessionService: SessionService,
+    navigationService: NavigationService)
   extends ViewModel {
 
   val username: StringProperty = new SimpleStringProperty()
@@ -30,12 +33,12 @@ class LoginPageViewModel @Inject() (
   private def signIn() = async {
     message.setValue(s"Signing in...")
 
-    await(sessionService.logIn(username.get(), password.get())) match {
+    await(sessionService.signIn(username.get(), password.get())) match {
       case Left(error) => message.setValue(error)
-      case Right(session) => message.setValue(s"Welcome ${session.fullName}!")
+      case Right(session) =>
+        message.setValue("")
+        navigationService.navigateTo(classOf[UserProfilePageView])
     }
-
-    delayedClearMessage()
   }
 
   private def canRegister = {

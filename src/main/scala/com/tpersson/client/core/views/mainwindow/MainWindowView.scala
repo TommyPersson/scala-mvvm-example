@@ -2,31 +2,32 @@ package com.tpersson.client.core.views.mainwindow
 
 import java.net.URL
 import java.util.ResourceBundle
+import javafx.beans.value.{ChangeListener, ObservableValue}
 import javafx.fxml.{FXML, Initializable}
-import javafx.scene.control.{Button, Label}
+import javafx.scene.Node
+import javafx.scene.layout.Pane
 
 import de.saxsys.mvvmfx.{FxmlView, InjectViewModel}
 
 class MainWindowView extends FxmlView[MainWindowViewModel] with Initializable {
-
   @InjectViewModel
   private var viewModel: MainWindowViewModel = _
 
   @FXML
-  private var messageLabel: Label = _
-
-  @FXML
-  private var doThingButton: Button = _
+  private var pageNodeContainerPane: Pane = _
 
   override def initialize(location: URL, resources: ResourceBundle): Unit = {
-    messageLabel.textProperty().bind(viewModel.message)
+    viewModel.currentPageViewNode.addListener(new ChangeListener[Node] {
+      override def changed(observable: ObservableValue[_ <: Node], oldValue: Node, newValue: Node): Unit = {
+        resetCurrentViewNode()
+      }
+    })
 
-    doThingButton.disableProperty().bind(
-      viewModel.doThingCommand.notExecutableProperty())
+    resetCurrentViewNode()
   }
 
-  @FXML
-  def doThingAction(): Unit = {
-    viewModel.doThingCommand.execute()
+  def resetCurrentViewNode(): Unit = {
+    pageNodeContainerPane.getChildren.clear()
+    pageNodeContainerPane.getChildren.add(viewModel.currentPageViewNode.getValue)
   }
 }

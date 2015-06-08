@@ -7,7 +7,9 @@
 <?import javafx.scene.layout.*?>
 
 
-<StackPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tpersson.client.core.views.pages.loginpage.LoginPageView">
+<StackPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/null"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.tpersson.client.core.views.pages.loginpage.LoginPageView">
    <children>
       <VBox alignment="CENTER_LEFT" maxWidth="300.0" prefWidth="300.0" spacing="10.0">
          <children>
