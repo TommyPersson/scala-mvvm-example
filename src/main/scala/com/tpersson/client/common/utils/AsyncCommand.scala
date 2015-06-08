@@ -8,7 +8,7 @@ import de.saxsys.mvvmfx.utils.commands.CommandBase
 
 import scala.concurrent.Future
 
-object BooleanBinding {
+object BooleanBindings {
   def True = {
     new SimpleBooleanProperty(true).and(new SimpleBooleanProperty(true))
   }
@@ -16,7 +16,7 @@ object BooleanBinding {
 
 class AsyncCommand(
     executeFunction: () => Future[Unit],
-    canExecuteBinding: BooleanBinding = BooleanBinding.True)
+    canExecuteBinding: BooleanBinding = BooleanBindings.True)
   extends CommandBase {
 
   private val _progressProperty: SimpleDoubleProperty = new SimpleDoubleProperty(0.0)

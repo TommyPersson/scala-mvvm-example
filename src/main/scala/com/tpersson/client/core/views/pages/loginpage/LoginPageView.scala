@@ -11,20 +11,17 @@ class LoginPageView extends FxmlView[LoginPageViewModel] with Initializable {
   @InjectViewModel
   private var viewModel: LoginPageViewModel = _
 
-  @FXML
-  private var usernameTextField: TextField = _
+  @FXML private var usernameTextField: TextField = _
 
-  @FXML
-  private var passwordField: PasswordField = _
+  @FXML private var passwordField: PasswordField = _
 
-  @FXML
-  private var messageLabel: Label = _
+  @FXML private var messageLabel: Label = _
 
-  @FXML
-  private var signInButton: Button = _
+  @FXML private var signInButton: Button = _
 
-  @FXML
-  private var registerHyperlink: Hyperlink = _
+  @FXML private var registerHyperlink: Hyperlink = _
+
+  @FXML private var signInProgressIndicator: ProgressIndicator = _
 
   override def initialize(location: URL, resources: ResourceBundle): Unit = {
     usernameTextField.textProperty().bindBidirectional(viewModel.username)
@@ -35,6 +32,8 @@ class LoginPageView extends FxmlView[LoginPageViewModel] with Initializable {
     passwordField.disableProperty().bind(viewModel.signInCommand.runningProperty())
     signInButton.disableProperty().bind(viewModel.signInCommand.executableProperty().not())
     registerHyperlink.disableProperty().bind(viewModel.registerCommand.executableProperty().not())
+
+    signInProgressIndicator.visibleProperty().bind(viewModel.signInCommand.runningProperty())
   }
 
   @FXML
