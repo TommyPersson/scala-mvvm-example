@@ -1,7 +1,7 @@
 package com.tpersson.client.common.services.session
 
 import scala.concurrent.Future
-import com.tpersson.client.common.utils.ExecutionContexts.Implicits.ForkJoin
+import com.tpersson.client.common.utils.ExecutionContexts.Implicits.Pool
 
 class SessionServiceImpl extends SessionService {
   var _currentSession: Option[Session] = None

@@ -4,7 +4,7 @@ import scala.concurrent.ExecutionContext
 
 object ExecutionContexts {
   object Implicits {
-    implicit val Ui : ExecutionContext = new UiExecutionContext
-    implicit val ForkJoin : ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
+    implicit var Ui : ExecutionContext = new UiExecutionContext
+    implicit var Pool : ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
   }
 }
