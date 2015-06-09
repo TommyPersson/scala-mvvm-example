@@ -57,12 +57,12 @@ class LoginPageViewModelTest extends TestSuiteBase {
     val viewModel = makeViewModel(f)
 
     // Arrange
-    val signInStarted = Promise[Boolean]()
-    val signInFinished = Promise[Boolean]()
+    val signInHasStarted = Promise[Unit]()
+    val signInAllowedToFinish = Promise[Unit]()
 
     val signInFake: (String, String) => Future[Either[String, Session]] = (_, _) => Future {
-      signInStarted.success(true)
-      Await.result(signInStarted.future, 1.seconds)
+      signInHasStarted.success()
+      Await.result(signInAllowedToFinish.future, 1.seconds)
       Left("don't care")
     }
 
@@ -71,10 +71,10 @@ class LoginPageViewModelTest extends TestSuiteBase {
     // Act
     // Assert
     viewModel.signInCommand.execute()
-    Await.result(signInStarted.future, 1.seconds)
+    Await.result(signInHasStarted.future, 1.seconds)
 
     assert(!viewModel.registerCommand.executableProperty.get, "register command was executable while signing in")
-    signInFinished.success(true)
+    signInAllowedToFinish.success()
 
     assert(TestUtils.waitForCondition(() => viewModel.signInCommand.isNotRunning, 100.milliseconds), "sign in did not finish within timeout")
     assert(viewModel.registerCommand.isExecutable, "register was not executable after sign in finished")
