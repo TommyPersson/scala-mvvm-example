@@ -6,7 +6,8 @@ import com.google.inject.Inject
 import com.tpersson.client.common.services.logging.Logger
 import com.tpersson.client.common.services.navigation.NavigationService
 import com.tpersson.client.common.services.session.SessionService
-import com.tpersson.client.common.utils.{AsyncCommand, ExecutionContextProvider, PageViewModelBase}
+import com.tpersson.client.common.utils.{AsyncCommand, ExecutionContextProvider, ViewModelBase}
+import com.tpersson.client.core.views.pages.examples.ExamplesPageView
 import com.tpersson.client.core.views.pages.loginpage.LoginPageView
 import de.saxsys.mvvmfx.utils.commands.Command
 
@@ -17,13 +18,14 @@ class UserProfilePageViewModel @Inject() (
     sessionService: SessionService,
     navigationService: NavigationService,
     executionContextProvider: ExecutionContextProvider)
-  extends PageViewModelBase(executionContextProvider) {
+  extends ViewModelBase(executionContextProvider) {
 
   val fullName: StringProperty = new SimpleStringProperty()
   val username: StringProperty = new SimpleStringProperty()
   val email: StringProperty = new SimpleStringProperty()
   val message: StringProperty = new SimpleStringProperty()
 
+  val navigateToExamplesPageCommand: Command = new AsyncCommand(navigateToExamplesPage)
   val signOutCommand: Command = new AsyncCommand(signOut)
 
   sessionService.currentSession match {
@@ -32,6 +34,10 @@ class UserProfilePageViewModel @Inject() (
       username.setValue(session.username)
       email.setValue(session.email)
     case _ => Unit
+  }
+
+  private def navigateToExamplesPage() = async {
+    navigationService.navigateTo(classOf[ExamplesPageView])
   }
 
   private def signOut() = async {

@@ -6,6 +6,7 @@ import com.tpersson.client.common.services.navigation.{NavigationService, Naviga
 import com.tpersson.client.common.services.session.{SessionService, SessionServiceImpl}
 import com.tpersson.client.common.utils.{ExecutionContextProviderImpl, ExecutionContextProvider}
 import com.tpersson.client.core.services.viewfactory.{PageViewFactory, PageViewFactoryImpl}
+import com.tpersson.client.examples.services.peopleservice.{PeopleServiceImpl, PeopleService}
 
 class CoreModule extends AbstractModule {
   override def configure(): Unit = {
@@ -14,5 +15,6 @@ class CoreModule extends AbstractModule {
     bind(classOf[NavigationService]).to(classOf[NavigationServiceImpl]).in(Scopes.SINGLETON)
     bind(classOf[PageViewFactory]).to(classOf[PageViewFactoryImpl]).in(Scopes.SINGLETON)
     bind(classOf[ExecutionContextProvider]).to(classOf[ExecutionContextProviderImpl])
+    bind(classOf[PeopleService]).to(classOf[PeopleServiceImpl])
   }
 }

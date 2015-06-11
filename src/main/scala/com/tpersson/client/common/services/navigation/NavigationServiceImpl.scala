@@ -4,17 +4,39 @@ import javafx.beans.property.{ReadOnlyObjectProperty, SimpleObjectProperty}
 
 import com.google.inject.Inject
 import com.tpersson.client.common.services.logging.Logger
-import de.saxsys.mvvmfx.FxmlView
+
+import scala.collection.mutable
 
 class NavigationServiceImpl @Inject() (logger: Logger) extends NavigationService {
-  private val _currentPageType = new SimpleObjectProperty[Class[_ <: FxmlView[_]]]
 
-  override val currentPageType: ReadOnlyObjectProperty[Class[_ <: FxmlView[_]]] = _currentPageType
+  private val backStack = new mutable.Stack[PageViewType]
 
-  override def navigateTo(viewType: Class[_ <: FxmlView[_]]): Unit = {
-    val currentPageTypeName = if (_currentPageType.getValue != null) _currentPageType.getValue.getSimpleName else "None"
-    
+  private val _currentPageType = new SimpleObjectProperty[PageViewType]
+
+  override val currentPageType: ReadOnlyObjectProperty[PageViewType] = _currentPageType
+
+  override def navigateTo(viewType: PageViewType): Unit = {
+    val pageType = Option(_currentPageType.getValue)
+
+    if (pageType.isDefined) {
+      backStack.push(pageType.get)
+    }
+
+    doNavigateTo(viewType, pageType)
+  }
+
+  override def navigateBack(): Unit = {
+    if (backStack.nonEmpty) {
+      val lastPageType = backStack.pop()
+
+      doNavigateTo(lastPageType, None)
+    }
+  }
+
+  def doNavigateTo(viewType: PageViewType, previousPageType: Option[PageViewType]): Unit = {
+    val currentPageTypeName = previousPageType.getOrElse(classOf[Null]).getSimpleName
     logger.log(s"Navigating to <${viewType.getSimpleName}> from <$currentPageTypeName>")
+
     _currentPageType.setValue(viewType)
   }
 }

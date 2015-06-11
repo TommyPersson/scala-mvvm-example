@@ -2,11 +2,11 @@ package com.tpersson.client.common.services.navigation
 
 import javafx.beans.property.ReadOnlyObjectProperty
 
-import de.saxsys.mvvmfx.FxmlView
-
 
 trait NavigationService {
-  val currentPageType: ReadOnlyObjectProperty[Class[_ <: FxmlView[_]]]
+  val currentPageType: ReadOnlyObjectProperty[PageViewType]
 
-  def navigateTo(viewType: Class[_ <: FxmlView[_]]): Unit
+  def navigateTo(viewType: PageViewType): Unit
+
+  def navigateBack(): Unit
 }

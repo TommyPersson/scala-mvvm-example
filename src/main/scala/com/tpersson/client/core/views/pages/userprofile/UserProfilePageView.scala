@@ -12,26 +12,28 @@ class UserProfilePageView extends FxmlView[UserProfilePageViewModel] with Initia
   private var viewModel: UserProfilePageViewModel = _
 
   @FXML private var fullNameLabel: Label = _
-
   @FXML private var usernameLabel: Label = _
-
   @FXML private var emailLabel: Label = _
-
-  @FXML private var messageLabel: Label = _
 
   @FXML private var signOutButton: Button = _
 
+  @FXML private var messageLabel: Label = _
   @FXML private var signOutProgressIndicator: ProgressIndicator = _
 
   override def initialize(location: URL, resources: ResourceBundle): Unit = {
     fullNameLabel.textProperty().bind(viewModel.fullName)
     usernameLabel.textProperty().bind(viewModel.username)
     emailLabel.textProperty().bind(viewModel.email)
-    messageLabel.textProperty().bind(viewModel.message)
 
     signOutButton.disableProperty().bind(viewModel.signOutCommand.executableProperty().not())
 
     signOutProgressIndicator.visibleProperty().bind(viewModel.signOutCommand.runningProperty())
+    messageLabel.textProperty().bind(viewModel.message)
+  }
+
+  @FXML
+  private def showExamplesAction(): Unit = {
+    viewModel.navigateToExamplesPageCommand.execute()
   }
 
   @FXML

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ScalaCompilerConfiguration">
-    <profile name="SBT 1" modules="scala-mvvm-example" />
+    <profile name="SBT 1" modules="scala-mvvm-example">
+      <parameters>
+        <parameter value="-Xexperimental" />
+      </parameters>
+    </profile>
   </component>
 </project>

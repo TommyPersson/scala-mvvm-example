@@ -6,7 +6,7 @@ import com.google.inject.Inject
 import com.tpersson.client.common.services.logging.Logger
 import com.tpersson.client.common.services.navigation.NavigationService
 import com.tpersson.client.common.services.session.SessionService
-import com.tpersson.client.common.utils.{AsyncCommand, AwaitUtils, ExecutionContextProvider, PageViewModelBase}
+import com.tpersson.client.common.utils.{AsyncCommand, AwaitUtils, ExecutionContextProvider, ViewModelBase}
 import com.tpersson.client.core.views.pages.userprofile.UserProfilePageView
 
 import scala.async.Async._
@@ -16,7 +16,7 @@ class LoginPageViewModel @Inject() (
     sessionService: SessionService,
     navigationService: NavigationService,
     executionContextProvider: ExecutionContextProvider)
-  extends PageViewModelBase(executionContextProvider) {
+  extends ViewModelBase(executionContextProvider) {
 
   val username: StringProperty = new SimpleStringProperty()
   val password: StringProperty = new SimpleStringProperty()
