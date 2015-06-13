@@ -6,7 +6,7 @@ import javafx.scene.Node
 
 import com.google.inject.Inject
 import com.tpersson.client.common.services.logging.Logger
-import com.tpersson.client.common.services.navigation.NavigationService
+import com.tpersson.client.common.services.navigation.{PageViewType, NavigationService}
 import com.tpersson.client.common.services.session.SessionService
 import com.tpersson.client.common.utils.{AsyncCommand, ExecutionContextProvider, ViewModelBase}
 import com.tpersson.client.core.services.viewfactory.PageViewFactory
@@ -40,8 +40,8 @@ class MainWindowViewModel @Inject() (
 
   showApplicationBar.bind(isLoggedIn)
 
-  navigationService.currentPageType.addListener(new ChangeListener[Class[_]] {
-    override def changed(observable: ObservableValue[_ <: Class[_]], oldValue: Class[_], newValue: Class[_]): Unit = {
+  navigationService.currentPageType.addListener(new ChangeListener[PageViewType] {
+    override def changed(observable: ObservableValue[_ <: PageViewType], oldValue: PageViewType, newValue: PageViewType): Unit = {
       _currentPageViewNode.setValue(pageViewFactory.createViewNode(newValue))
 
       // todo: add title to PageViewModelBase
