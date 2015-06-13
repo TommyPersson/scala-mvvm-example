@@ -19,14 +19,12 @@ class ExamplesPageView extends FxmlView[ExamplesPageViewModel] with Initializabl
   @FXML var examplesPane: VBox = _
 
   override def initialize(location: URL, resources: ResourceBundle): Unit = {
-    viewModel.examplePages.map(createExampleButton).foreach(b => {
-      VBox.setMargin(b, new Insets(5,20,5,20))
-      examplesPane.getChildren.add(b)
-    })
+    viewModel.examplePages.map(createExampleButton).foreach(examplesPane.getChildren.add)
   }
 
   private def createExampleButton(examplePageType: PageViewType): Button = {
     val button = new Button()
+    button.setPadding(new Insets(5,20,5,20))
     button.setText(examplePageType.getSimpleName)
     button.setUserData(examplePageType)
 
